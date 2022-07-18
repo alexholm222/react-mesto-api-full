@@ -1,0 +1,15 @@
+.not-found__button {
+  font-weight: 900;
+  font-size: 18px;
+  line-height: 20px;
+  text-align: center;
+  color: #CCCCCC;
+}
+
+.not-found__button:active {
+  color: #CCCCCC;
+}
+
+.not-found__button:visited {
+    color: #CCCCCC;
+}

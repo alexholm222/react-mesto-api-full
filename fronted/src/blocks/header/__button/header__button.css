@@ -1,0 +1,21 @@
+.header__button {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  height: 22px;
+  margin: 51px 0 0;
+  text-decoration: none;
+  background-color: black;
+  padding: 0;
+  border: none;
+  color:  #A9A9A9;
+  cursor: pointer;
+}
+
+.header__button:active {
+  color:  #A9A9A9;
+}
+
+.header__button:visited {
+  color:  #A9A9A9;
+}

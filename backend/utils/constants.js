@@ -1,0 +1,16 @@
+const BAD_REQUEST_CODE = 400;
+const NOT_FOUND_CODE = 404;
+const DEFAUTL_CODE = 500;
+const UNAUTHORIZED_CODE = 401;
+const REGISTRATION_CODE = 409;
+const ACCESS_DENIED_CODE = 403;
+const REGEX = /^https?:\/\/[-\w]*\.[\w]{2,3}.*$/i;
+module.exports = {
+  BAD_REQUEST_CODE,
+  NOT_FOUND_CODE,
+  DEFAUTL_CODE,
+  UNAUTHORIZED_CODE,
+  REGISTRATION_CODE,
+  ACCESS_DENIED_CODE,
+  REGEX,
+};

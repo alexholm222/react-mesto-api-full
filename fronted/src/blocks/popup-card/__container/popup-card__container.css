@@ -1,0 +1,4 @@
+.popup-card__container {
+  position: relative;
+  object-fit: contain;
+}

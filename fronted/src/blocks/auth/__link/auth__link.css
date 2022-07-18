@@ -1,0 +1,11 @@
+.auth__link {
+  text-decoration: none;
+}
+
+.auth__link:active {
+  color: #FFFFFF;
+}
+
+.auth__link:visited {
+  color:#FFFFFF;
+}

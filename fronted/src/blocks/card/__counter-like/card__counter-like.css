@@ -1,0 +1,10 @@
+.card__counter-like{
+  margin: 0;
+  padding: 3px 0 0 0;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  text-align: center;
+  vertical-align: bottom;
+}

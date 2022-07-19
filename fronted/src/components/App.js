@@ -52,7 +52,7 @@ function App() {
         })
         .catch(err => console.log(err))
       }
-  },[])
+  })
 
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);

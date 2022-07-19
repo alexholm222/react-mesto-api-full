@@ -83,7 +83,7 @@ class Api {
 }
 
 export const api = new Api({
-  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-39',
+  baseUrl: 'https://api.alexholm222.students.nomoredomains.xyz',
   headers: {
     authorization: '123cbfe4-9c7c-4071-ae74-17191aaed0ad',
     'Content-Type': 'application/json'
@@ -92,7 +92,7 @@ export const api = new Api({
 
 
 export const apiReact = new Api ({
-  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-39',
+  baseUrl: 'https://api.alexholm222.students.nomoredomains.xyz',
   headers: {
     authorization: '123cbfe4-9c7c-4071-ae74-17191aaed0ad',
     'Content-Type': 'application/json'

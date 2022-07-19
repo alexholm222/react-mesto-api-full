@@ -49,7 +49,7 @@ function App() {
             setUserEmail(res.data.email);
             hist.push("/")
           }  
-        })
+        },[])
         .catch(err => console.log(err))
       }
   })

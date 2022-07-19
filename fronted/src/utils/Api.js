@@ -93,6 +93,7 @@ export const api = new Api({
 export const apiReact = new Api ({
   baseUrl: 'https://api.alexholm222.students.nomoredomains.xyz',
   headers: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${localStorage.token}`
   }
 });

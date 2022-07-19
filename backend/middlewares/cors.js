@@ -1,7 +1,8 @@
 const allowedCors = [
   'https://alexholm222.students.nomoredomains.xyz',
   'http://alexholm222.students.nomoredomains.xyz',
-  'localhost:3000',
+  'http://localhost:3000',
+  'https://localhost:3000',
 ];
 module.exports = (req, res, next) => {
   const { origin } = req.headers;

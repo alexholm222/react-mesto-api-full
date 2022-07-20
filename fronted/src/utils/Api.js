@@ -3,12 +3,9 @@ class Api {
     this._options = options;
   }
 
-  getUserInformation(token) {
+  getUserInformation() {
     return fetch(`${this._options.baseUrl}/users/me`, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      }
+      headers: this._options.headers
     })
     .then(this._checkResponse)
   }
@@ -84,7 +81,7 @@ class Api {
     }
   }
 }
-
+const token = localStorage.getItem('token');
 export const api = new Api({
   baseUrl: 'https://api.alexholm222.students.nomoredomains.xyz',
   headers: {
@@ -96,6 +93,7 @@ export const api = new Api({
 export const apiReact = new Api ({
   baseUrl: 'https://api.alexholm222.students.nomoredomains.xyz',
   headers: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`,
   }
 });

@@ -55,7 +55,7 @@ module.exports.likeCard = (req, res, next) => {
       if (!card) {
         throw new NotFoundError('Карточка с указанным id не найдена');
       } else {
-        res.send({ data: card.likes });
+        res.send({ data: card });
       }
     })
     .catch((err) => {
@@ -77,7 +77,7 @@ module.exports.deleteLikeCard = (req, res, next) => {
       if (!card) {
         throw new NotFoundError('Карточка с указанным id не найдена');
       } else {
-        res.send({ data: card.likes });
+        res.send({ data: card });
       }
     })
     .catch((err) => {

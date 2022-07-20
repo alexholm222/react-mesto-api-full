@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, useHistory, Switch} from 'react-router-dom';
-import {apiReact} from '../utils/Api.js';
+import { apiReact } from '../utils/Api.js';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
@@ -31,17 +31,17 @@ function App() {
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [userEmail, setUserEmail] = React.useState('')
   const hist = useHistory();
-  const token= localStorage.getItem('token');
   React.useEffect(() => {
-    Promise.all([apiReact.getUserInformation(token), apiReact.getInitialCards()])
+    Promise.all([apiReact.getUserInformation(), apiReact.getInitialCards()])
       .then(([userData, cardsData]) => {
-        setCurrentUser(userData);
-        setCards(cardsData)
+        setCurrentUser(userData.data);
+        setCards(cardsData.data.reverse())
       })
       .catch(err => console.log(err))
   }, [])
 
   React.useEffect(()=> {
+    const token = localStorage.getItem('token');
       if(token) {
         auth.getContent(token).then((res) => {
           if(res) {
@@ -106,8 +106,9 @@ function App() {
   function handleUpdateUser({name, about}) {
     apiReact.submitUserInformation(name, about)
       .then((userData) => {
-        setCurrentUser(userData);
+        setCurrentUser(userData.data);
         closeAllPopups();
+        console.log(userData.data)
       })
       .catch(err => console.log(err))
   }
@@ -115,7 +116,7 @@ function App() {
   function handleUpdateAvatar({avatar}) {
     apiReact.submitUserAvatar(avatar)
       .then(userData => {
-        setCurrentUser(userData);
+        setCurrentUser(userData.data);
         closeAllPopups();
       })
       .catch(err => console.log(err))
@@ -124,17 +125,18 @@ function App() {
   function handleAddPlaceSubmit(card) {
     apiReact.submitCards(card)
       .then(newCard => {
-        setCards([newCard, ...cards]);
+        setCards([newCard.data, ...cards]);
         closeAllPopups()
       })
       .catch(err => console.log(err))
   }
 
  function handleCardLike(card) {
-  const isLiked = card.likes.some(i => i._id === currentUser._id);
+  const isLiked = card.likes.some(id => id === currentUser._id);
   if (!isLiked) {
     apiReact.LikeCard(card._id)
     .then(newCard => {
+      console.log(newCard)
       setCards((state) => state.map((c)=> c._id === card._id ? newCard : c))
       })
      .catch(err => console.log(err))
@@ -157,7 +159,7 @@ function handleCardDelete(card) {
 }
 
 function handleSingOut() {
-  localStorage.removeItem("token");
+  localStorage.removeItem('token');
   hist.push("/sign-in")
 }
 

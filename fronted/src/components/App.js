@@ -31,17 +31,9 @@ function App() {
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [userEmail, setUserEmail] = React.useState('')
   const hist = useHistory();
-  React.useEffect(() => {
-    Promise.all([apiReact.getUserInformation(), apiReact.getInitialCards()])
-      .then(([userData, cardsData]) => {
-        setCurrentUser(userData.data);
-        setCards(cardsData.data.reverse())
-      })
-      .catch(err => console.log(err))
-  }, [])
+  const token = localStorage.getItem('token');
 
   React.useEffect(()=> {
-    const token = localStorage.getItem('token');
       if(token) {
         auth.getContent(token).then((res) => {
           if(res) {
@@ -49,10 +41,19 @@ function App() {
             setUserEmail(res.data.email);
             hist.push("/")
           }  
-        },[])
+        },[token])
         .catch(err => console.log(err))
       }
   })
+  
+  React.useEffect(() => {
+    Promise.all([apiReact.getUserInformation(token), apiReact.getInitialCards(token)])
+      .then(([userData, cardsData]) => {
+        setCurrentUser(userData.data);
+        setCards(cardsData.data.reverse())
+      })
+      .catch(err => console.log(err))
+  },[token])
 
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
@@ -104,7 +105,7 @@ function App() {
   }, [])
 
   function handleUpdateUser({name, about}) {
-    apiReact.submitUserInformation(name, about)
+    apiReact.submitUserInformation(name, about, token)
       .then((userData) => {
         setCurrentUser(userData.data);
         closeAllPopups();
@@ -114,7 +115,7 @@ function App() {
   }
 
   function handleUpdateAvatar({avatar}) {
-    apiReact.submitUserAvatar(avatar)
+    apiReact.submitUserAvatar(avatar, token)
       .then(userData => {
         setCurrentUser(userData.data);
         closeAllPopups();
@@ -123,7 +124,7 @@ function App() {
   }
 
   function handleAddPlaceSubmit(card) {
-    apiReact.submitCards(card)
+    apiReact.submitCards(card, token)
       .then(newCard => {
         setCards([newCard.data, ...cards]);
         closeAllPopups()
@@ -134,16 +135,15 @@ function App() {
  function handleCardLike(card) {
   const isLiked = card.likes.some(id => id === currentUser._id);
   if (!isLiked) {
-    apiReact.LikeCard(card._id)
+    apiReact.LikeCard(card._id, token)
     .then(newCard => {
-      console.log(newCard)
-      setCards((state) => state.map((c)=> c._id === card._id ? newCard : c))
+      setCards((state) => state.map((c)=> c._id === card._id ? newCard.data : c))
       })
      .catch(err => console.log(err))
     } else {
-     apiReact.deleteLikeCard(card._id)
+     apiReact.deleteLikeCard(card._id, token)
     .then(newCard => {
-      setCards((state) => state.map((c)=> c._id === card._id ? newCard : c))
+      setCards((state) => state.map((c)=> c._id === card._id ? newCard.data : c))
       })
     .catch(err => console.log(err)) 
    } 
@@ -151,7 +151,7 @@ function App() {
 
 function handleCardDelete(card) {
   const isOwn = card.owner === currentUser._id;
-  apiReact.deleteCard(card._id, !isOwn)
+  apiReact.deleteCard(card._id, token, !isOwn)
     .then(() => {
       setCards((state) => state.filter((c)=> c._id !== card._id ))
       })

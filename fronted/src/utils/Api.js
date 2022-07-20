@@ -3,24 +3,33 @@ class Api {
     this._options = options;
   }
 
-  getUserInformation() {
+  getUserInformation(token) {
     return fetch(`${this._options.baseUrl}/users/me`, {
-      headers: this._options.headers
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      }
     })
     .then(this._checkResponse)
   }
 
-  getInitialCards() {
+  getInitialCards(token) {
     return fetch(`${this._options.baseUrl}/cards`, {
-      headers: this._options.headers
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      }
     })
     .then(this._checkResponse)
   }
 
-  submitUserInformation(name, about) {
+  submitUserInformation(name, about, token) {
     return fetch(`${this._options.baseUrl}/users/me`, {
       method: 'PATCH',
-      headers: this._options.headers,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
       body: JSON.stringify({
         name: name,
         about: about
@@ -29,10 +38,13 @@ class Api {
     .then(this._checkResponse)
   }
 
-  submitCards(card) {
+  submitCards(card, token) {
     return fetch(`${this._options.baseUrl}/cards`, {
       method: 'POST',
-      headers: this._options.headers,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
       body: JSON.stringify({
         name: card.name,
         link: card.link
@@ -41,31 +53,43 @@ class Api {
     .then(this._checkResponse)
   }
 
-  deleteCard(id) {return fetch(`${this._options.baseUrl}/cards/${id}`, {
+  deleteCard(id, token) {return fetch(`${this._options.baseUrl}/cards/${id}`, {
     method: 'DELETE',
-    headers: this._options.headers
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    }
   })
   .then(this._checkResponse)
   }
 
-  LikeCard(id) {return fetch(`${this._options.baseUrl}/cards/${id}/likes `, {
+  LikeCard(id, token) {return fetch(`${this._options.baseUrl}/cards/${id}/likes `, {
     method: 'PUT',
-    headers: this._options.headers,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    }
   })
   .then(this._checkResponse)
   }
 
-  deleteLikeCard(id) {return fetch(`${this._options.baseUrl}/cards/${id}/likes `, {
+  deleteLikeCard(id, token) {return fetch(`${this._options.baseUrl}/cards/${id}/likes `, {
     method: 'DELETE',
-    headers: this._options.headers
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    }
   })
   .then(this._checkResponse)
   }
 
-  submitUserAvatar(avatar) {
+  submitUserAvatar(avatar, token) {
     return fetch(`${this._options.baseUrl}/users/me/avatar`, {
       method: 'PATCH',
-      headers: this._options.headers,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
       body: JSON.stringify({
         avatar: avatar
       })
@@ -81,7 +105,7 @@ class Api {
     }
   }
 }
-const token = localStorage.getItem('token');
+
 export const api = new Api({
   baseUrl: 'https://api.alexholm222.students.nomoredomains.xyz',
   headers: {
@@ -93,7 +117,6 @@ export const api = new Api({
 export const apiReact = new Api ({
   baseUrl: 'https://api.alexholm222.students.nomoredomains.xyz',
   headers: {
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${token}`,
+    'Content-Type': 'application/json'
   }
 });

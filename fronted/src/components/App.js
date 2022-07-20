@@ -31,8 +31,9 @@ function App() {
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [userEmail, setUserEmail] = React.useState('')
   const hist = useHistory();
+  const token= localStorage.getItem('token');
   React.useEffect(() => {
-    Promise.all([apiReact.getUserInformation(), apiReact.getInitialCards()])
+    Promise.all([apiReact.getUserInformation(token), apiReact.getInitialCards()])
       .then(([userData, cardsData]) => {
         setCurrentUser(userData);
         setCards(cardsData)
@@ -41,7 +42,6 @@ function App() {
   }, [])
 
   React.useEffect(()=> {
-      const token= localStorage.getItem('token');
       if(token) {
         auth.getContent(token).then((res) => {
           if(res) {
@@ -148,7 +148,7 @@ function App() {
 }
 
 function handleCardDelete(card) {
-  const isOwn = card.owner._id === currentUser._id;
+  const isOwn = card.owner === currentUser._id;
   apiReact.deleteCard(card._id, !isOwn)
     .then(() => {
       setCards((state) => state.filter((c)=> c._id !== card._id ))

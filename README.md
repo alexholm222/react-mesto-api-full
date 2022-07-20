@@ -1,8 +1,8 @@
 # Проект: Путешествие по России
 
 **Описание проекта**
- * [Ссылка на сайт проекта]( alexholm222.students.nomoredomains.xyz)
- * [Ссылка на сервер проекта]( api.alexholm222.students.nomoredomains.xyz)
+ * [Ссылка на сайт проекта]( https://alexholm222.students.nomoredomains.xyz/)
+ * [Ссылка на сервер проекта]( https://api.alexholm222.students.nomoredomains.xyz/)
  * [Ссылка на GitHub проекта]( https://alexholm222.github.io/react-mesto-api-full/) 
  * IP сервера: 51.250.92.64
 

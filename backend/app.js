@@ -9,6 +9,7 @@ const auth = require('./middlewares/auth');
 const error = require('./middlewares/error');
 const cors = require('./middlewares/cors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const NotFoundError = require('./errors/notFoundError');
 
 const { PORT = 3000 } = process.env;
 
@@ -34,14 +35,14 @@ app.get('/crash-test', () => {
 app.post('/signin', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
-    password: Joi.string().required().min(8),
+    password: Joi.string().required(),
   }),
 }), login);
 
 app.post('/signup', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
-    password: Joi.string().required().min(8),
+    password: Joi.string().required(),
     name: Joi.string().max(30).min(2),
     about: Joi.string().max(30).min(2),
     avatar: Joi.string().custom(linkValidator),
@@ -51,13 +52,12 @@ app.post('/signup', celebrate({
 app.use('/users', auth, require('./routes/users'));
 app.use('/cards', auth, require('./routes/cards'));
 
+app.use('*', auth, (req, res, next) => next(new NotFoundError('Запрашиваемая страница не существует')));
+
 app.use(errorLogger);
 
 app.use(errors());
 
-app.use((req, res) => {
-  res.status(404).send({ message: '404 - страница не найдена' });
-});
 app.use(error);
 app.listen(PORT, () => {
   console.log(`Сервер успешно запущен на порту ${PORT}`);
